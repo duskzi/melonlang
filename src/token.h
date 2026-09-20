@@ -1,6 +1,9 @@
 #ifndef HEADER_MELON_TOKEN
 #define HEADER_MELON_TOKEN
 
+#include <stddef.h> /* for size_t in substr_s */
+#include "substr.h"
+
 typedef enum tokentype_e {
 
   /* Single-character tokens */
@@ -22,5 +25,24 @@ typedef enum tokentype_e {
   PRINT, RETURN, SUPER, THIS, TRUE, VAR, WHILE,
 }
 tokentype_e;
+
+/* Literal value attached to a token */
+typedef union literal_u {
+	float 	number;
+	char   *string;
+} 
+literal_u;
+
+/* A single token produced by the lexer */
+typedef struct token_s {
+	tokentype_e 	type;
+	substr_s 		  lexme;
+	literal_u 		literal;
+	unsigned int 	line;
+} 
+token_s;
+
+void init_token(token_s *token, tokentype_e type, substr_s lexme);
+void print_token(token_s *token);
 
 #endif
