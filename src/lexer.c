@@ -1,7 +1,9 @@
 #include <stdbool.h>
 #include <ctype.h>
 #include "error.h"
+#include "keyword.h"
 #include "lexer.h"
+#include "substr.h"
 #include "token.h"
 
 
@@ -13,6 +15,19 @@
 int scan_tokens(char *source, token_array_s *tokens) {
 	size_t index = 0;
 	int    line  = 0;
+
+
+	static struct hashmap_s hashmap;
+
+	if (hashmap_create(255, &hashmap) != 0) {
+		ERROR_RETURN(0, "Unable to create token's hashmap");
+	}
+	
+	#define PUT(s, v) hashmap_put(&hashmap, s, strlen(s), &v)
+	
+		PUT("else", ELSE);
+
+	#undef PUT
 
 	/* 
 		'c' points to the address of the current letter in the loop 
@@ -98,6 +113,44 @@ int scan_tokens(char *source, token_array_s *tokens) {
 
 			default:
 				
+				/* Found a keyword or a type */
+				if(isalpha(*c)) {
+
+					char *begin = c;
+					while(isalnum(*c) && *c != '\0') {
+						c++;
+						index++;
+					}
+
+					index--; /* Last word char */
+
+					if (*c == '\0') {
+						ERROR_RETURN(0, "Unterminated string at line %d", line);
+					}
+					
+					substr_s keyword = {
+						.begin = begin,
+						.length = c - begin,
+					};
+
+					/* Build the keyword table once, on first use */
+					static hashmap_t keywords;
+					static bool keywords_ready = false;
+
+					if (!keywords_ready) {
+						if (!keyword_map_init(&keywords)) {
+							ERROR_RETURN(0, "Failed to build keyword table");
+						}
+						keywords_ready = true;
+					}
+
+					/* Tracked words map to their keyword/type token,
+					   everything else becomes an identifier */
+					init_token(&token, keyword_lookup(&keywords, keyword), keyword);
+
+					break;
+				}
+
 				if(isdigit(*c)) {
 					/* TODO: Parse number */
 					should_push = false;

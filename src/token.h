@@ -16,13 +16,16 @@ typedef enum tokentype_e {
   EQUAL, EQUAL_EQUAL,
   GREATER, GREATER_EQUAL,
   LESS, LESS_EQUAL,
-
+  
   /* Literals */
   IDENTIFIER, STRING, NUMBER,
-
+  
   /* Keywords */
-  AND, CLASS, ELSE, FALSE, FOR, IF, NLL, OR,
-  PRINT, RETURN, SUPER, THIS, TRUE, VAR, WHILE,
+  AND, ELSE, FALSE, FOR, IF, NLL, OR,
+  OUT, RETURN, TRUE, VAR, WHILE,
+
+  /* Types */
+  INT_T, STRING_T, FLOAT_T,
 }
 tokentype_e;
 
