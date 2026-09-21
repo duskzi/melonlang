@@ -27,9 +27,15 @@ int scan_tokens(char *source, token_array_s *tokens) {
 		bool should_push = true;
 
 		switch (*c) {
-			case '(':
-				init_token(&token, LEFT_PAREN, (substr_s){c, 1});
-				break;
+			
+			#define USE(Type, String) \
+				case ""
+				init_token(&token, Type, (substr_s){c, 1}); \
+				break; 
+
+            	SYMBOLS_TABLE
+        	#undef USE
+				
 			case ')':
 				init_token(&token, RIGHT_PAREN, (substr_s){c, 1});
 				break;

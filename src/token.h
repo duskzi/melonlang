@@ -36,14 +36,45 @@
   USE(RETURN,       "return") \
 */
 
+/* Macros Tables
+ *
+ * 		USE( Type, Strings )	
+ */
 #define KEYWORDS_TABLE \
-  USE(IF,           "if") \
-  USE(FOR,          "for") \
-  USE(OUT,          "out") \
-  USE(ELSE,         "else") \
-  USE(WHILE,        "while") \
-  USE(RETURN,       "return") \
+	USE(IF,       	"if") \
+	USE(FOR,        "for") \
+	USE(OUT,        "out") \
+	USE(ELSE,       "else") \
+	USE(WHILE,      "while") \
+	USE(RETURN,     "return") 
 
+#define LITERALS_TABLE \
+	USE(STRING,    	"if") \
+	USE(NUMBER,		"for") 
+
+#define SYMBOLS_TABLE \
+    USE(LEFT_PAREN,    "(") \
+    USE(RIGHT_PAREN,   ")") \
+    USE(LEFT_BRACE,    "{") \
+    USE(RIGHT_BRACE,   "}") \
+    USE(COMMA,         ",") \
+    USE(DOT,           ".") \
+    USE(MINUS,         "-") \
+    USE(PLUS,          "+") \
+    USE(SEMICOLON,     ";") \
+    USE(SLASH,         "/") \
+    USE(STAR,          "*") \
+    USE(AT,            "@") \
+    USE(BANG,          "!") \
+    USE(EQUAL,         "=") \
+    USE(GREATER,       ">") \
+    USE(LESS,          "<") \
+    USE(BANG_EQUAL,    "!=") \
+    USE(EQUAL_EQUAL,   "==") \
+    USE(GREATER_EQUAL, ">=") \
+    USE(LESS_EQUAL,    "<=") \
+    USE(AND,            "&&") \
+    USE(OR,             "||")
 
 typedef enum tokentype_e {
 
@@ -52,40 +83,21 @@ typedef enum tokentype_e {
 	 *	ELSE,
 	 *	...
 	 */
+
+	/* Keywords */
   	#define USE(Type, String) Type,
         KEYWORDS_TABLE
   	#undef USE
 
-	/* Literals do not have a string
-	 * representation, so just put
-	 * bellow xmacro table 
-	 */
-	STRING,
-	NUMBER,
+	/* Literals */
+  	#define USE(Type, String) Type,
+        LITERALS_TABLE
+  	#undef USE
 
 	/* Symbols */
-	LEFT_PAREN,
-    RIGHT_PAREN,
-    LEFT_BRACE,
-    RIGHT_BRACE,
-    COMMA,
-    DOT,
-    MINUS,
-    PLUS,
-    SEMICOLON,
-    SLASH,
-    STAR,
-    AT,
-    BANG,
-    EQUAL,
-    GREATER,
-    LESS,
-    BANG_EQUAL,
-    EQUAL_EQUAL,
-    GREATER_EQUAL,
-    LESS_EQUAL,
-    AND,
-    OR,
+  	#define USE(Type, String) Type,
+        SYMBOLS_TABLE
+  	#undef USE
 
 	/* There's no related type */
 	TOKEN_NULL

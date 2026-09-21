@@ -11,15 +11,17 @@ void init_token(token_s *token, tokentype_e type, substr_s lexme) {
 
 const char *tokentostr(tokentype_e type) {
     switch (type) {
-        #define USE(Type, String) \
-            case Type: return #Type;
-
-        KEYWORDS_TABLE
-
+        #define USE(Type, String) case Type: return #Type;
+            KEYWORDS_TABLE
         #undef USE
 
-        case STRING: return "STRING";
-        case NUMBER: return "NUMBER";
+        #define USE(Type, String) case Type: return #Type;
+            LITERALS_TABLE
+        #undef USE
+
+        #define USE(Type, String) case Type: return #Type;
+            SYMBOLS_TABLE
+        #undef USE
 
         default:
             return "TOKEN_NULL";

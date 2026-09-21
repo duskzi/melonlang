@@ -1,2 +1,2 @@
 # Do not include the compiled bin
-./out
+out/
