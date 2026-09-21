@@ -1,7 +1,7 @@
 #include <stdbool.h>
 #include <ctype.h>
+#include <stdio.h>
 #include "error.h"
-#include "keyword.h"
 #include "lexer.h"
 #include "substr.h"
 #include "token.h"
@@ -17,25 +17,12 @@ int scan_tokens(char *source, token_array_s *tokens) {
 	int    line  = 0;
 
 
-	static struct hashmap_s hashmap;
-
-	if (hashmap_create(255, &hashmap) != 0) {
-		ERROR_RETURN(0, "Unable to create token's hashmap");
-	}
-	
-	#define PUT(s, v) hashmap_put(&hashmap, s, strlen(s), &v)
-	
-		PUT("else", ELSE);
-
-	#undef PUT
-
 	/* 
 		'c' points to the address of the current letter in the loop 
 	*/
 	char *c = NULL;
 	while (*(c = &source[index]) != '\0') {
 
-		/* Zero-initialized so unrecognized characters still push a valid token */
 		token_s token = {0};
 		bool should_push = true;
 
@@ -90,7 +77,8 @@ int scan_tokens(char *source, token_array_s *tokens) {
 			case '"':
 
 				/* Hops " char */
-				char *begin = c + 1;
+				char *begin = c;
+				begin++;
 
 				do {
 					c++;
@@ -125,7 +113,7 @@ int scan_tokens(char *source, token_array_s *tokens) {
 					index--; /* Last word char */
 
 					if (*c == '\0') {
-						ERROR_RETURN(0, "Unterminated string at line %d", line);
+						ERROR_RETURN(0, "Unterminated keyword at line %d", line);
 					}
 					
 					substr_s keyword = {
@@ -133,20 +121,16 @@ int scan_tokens(char *source, token_array_s *tokens) {
 						.length = c - begin,
 					};
 
-					/* Build the keyword table once, on first use */
-					static hashmap_t keywords;
-					static bool keywords_ready = false;
-
-					if (!keywords_ready) {
-						if (!keyword_map_init(&keywords)) {
-							ERROR_RETURN(0, "Failed to build keyword table");
-						}
-						keywords_ready = true;
+					tokentype_e type = match_keyword(&keyword);
+					
+					if(type == TOKEN_NULL) {
+						/* TODO: or this shit is a identifier or it is
+						 * a type
+						 */
 					}
 
-					/* Tracked words map to their keyword/type token,
-					   everything else becomes an identifier */
-					init_token(&token, keyword_lookup(&keywords, keyword), keyword);
+					/* Set the keyword */
+					init_token(&token, type, keyword);
 
 					break;
 				}
@@ -169,4 +153,6 @@ int scan_tokens(char *source, token_array_s *tokens) {
 	}
 
 	return 1;
+
+	
 }

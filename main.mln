@@ -1,2 +1,5 @@
 "Hello from Melon Lang!"
 "This should work!!!! TuT"
+else
+"Another keyword"
+if
