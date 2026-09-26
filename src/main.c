@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "error.h"
 #include "lexer.h"
@@ -52,12 +53,19 @@ int main(int argc, char *argv[]) {
 	token_array_s tokens;
 	token_array_init(&tokens);
 
+	clock_t begin = clock();
+
 	/* TODO: Actual tokenization is not implemented yet */
 	if (!scan_tokens(file, &tokens)) {
 		token_array_free(&tokens);
 		free(file);
 		return 1;
 	}
+	
+	clock_t end = clock();
+	double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+
+	LOG_DEBUG("Tokens parsed in %lf s", time_spent);
 
 	for (size_t i = 0; i < tokens.count; i++) {
 		print_token(&tokens.data[i]);

@@ -1,5 +1,3 @@
-"Hello from Melon Lang!"
-"This should work!!!! TuT"
-else
-"Another keyword"
-if
+
+Int number = 90;
+String name = "Hi from Melon Lang!";

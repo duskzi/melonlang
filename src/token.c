@@ -20,6 +20,10 @@ const char *tokentostr(tokentype_e type) {
         #undef USE
 
         #define USE(Type, String) case Type: return #Type;
+            SINGLE_CHAR_SYMBOLS_TABLE
+        #undef USE
+
+        #define USE(Type, String) case Type: return #Type;
             SYMBOLS_TABLE
         #undef USE
 
