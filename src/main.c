@@ -55,6 +55,10 @@ int main(int argc, char *argv[]) {
 
 	clock_t begin = clock();
 
+	scan_tokens(file, &tokens);
+
+	return 0;
+
 	/* TODO: Actual tokenization is not implemented yet */
 	if (!scan_tokens(file, &tokens)) {
 		token_array_free(&tokens);

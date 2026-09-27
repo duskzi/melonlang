@@ -3,7 +3,7 @@
 #include "token.h"
 #include "substr.h"
 
-void init_token(token_s *token, tokentype_e type, substr_s lexme) {
+void set_token(token_s *token, tokentype_e type, substr_s lexme) {
     
     token->type = type;
     token->lexme = lexme;
