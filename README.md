@@ -6,9 +6,9 @@ This is the official repository for the melon language interpreter.
 
 Table of Contents
 
-1. "What differs Melon from other interpreted languages?" (#what-differs-melon-from-other-interpreted-languages)
-2. "How Melon Lang looks like?" (#how-melon-lang-looks-like)
-3. "Why the name "Melon"?" (#why-the-name-melon)
+1. [What differs Melon from other interpreted languages?](#what-differs-melon-from-other-interpreted-languages)
+2. [How Melon Lang looks like?] (#how-melon-lang-looks-like)
+3. [Why the name "Melon"?] (#why-the-name-melon)
 
 ---
 
