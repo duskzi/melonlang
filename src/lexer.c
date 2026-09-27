@@ -19,14 +19,27 @@ int def_token(token_s *token, size_t *line, tokentype_e type, substr_s lexme) {
 #define advance_by(Offset) 		((*index)+=Offset)
 #define advance() 				((*index)++)
 #define match_next(Char) 		(source[*index + 1] == Char)
+
 /* Variadic because the compound literal (substr_s){ptr, len} contains a
- * comma that the preprocessor would otherwise read as an argument separator */
+ * comma that the preprocessor would otherwise read as an argument separator 
+ */
 #define emit_token(Type, ...) 	def_token(token, line, Type, (__VA_ARGS__))
 
-/*
- * 1 == true
- * 0 == false
+/* Returns true if ´c´ is valid Melon lang
+ * symbol 
  */
+static inline int is_melon_symbol(char c)
+{
+    unsigned char u = (unsigned char) c;
+
+    return (u >= 33 && u <= 47) ||
+           (u >= 58 && u <= 64) ||
+           (u >= 91 && u <= 96) ||
+           (u >= 123 && u <= 126);
+}
+
+/* 1 == true
+ * 0 == false */
 int scan_lexme(token_s *token, char *source, size_t *index, size_t *line) {
     
     if (source[*index] == '\0') return 0;
@@ -57,7 +70,7 @@ int scan_lexme(token_s *token, char *source, size_t *index, size_t *line) {
         advance_by(wordlen);
 
         return def_token(
-			token, line, INDENTIFIER,
+			token, line, IDENTIFIER,
 			(substr_s){letter, wordlen});
     }
 
@@ -94,50 +107,33 @@ int scan_lexme(token_s *token, char *source, size_t *index, size_t *line) {
     }
 
     /* Symbols */
-    if (1) {
-
-        switch(*letter) {
-
-			#define USE(Type, Char) 						\
-				case Char: 									\
-					advance();								\
-															\
-					return emit_token(						\
-						Type, 								\
-						(substr_s){letter, 1});										                                     
-			
-			SINGLE_CHAR_SYMBOLS_TABLE
-			#undef USE
-
-
-            #define USE(Char, OneType, NextCh, TwoType)     \
-                case Char:                                  \
-                    if (match_next(NextCh)) {               \
-                        advance_by(2);                      \
-                        return emit_token(                   \
-                            TwoType,                        \
-                            (substr_s){letter, 2});         \
-                    }                                       \
-                    advance();                              \
-                    return emit_token(                       \
-                        OneType,                            \
-                        (substr_s){letter, 1});
-
-
-            TWO_CHAR_SYMBOLS_TABLE
-            #undef USE
-
-            default:
-                ERROR_RETURN(0, "Unrecognized character %c", *letter);
-		};
-
+    if (*letter == '<' && match_next('=')) {
         advance();
-
-        return 1;
+        return emit_token(LESS_EQUAL, (substr_s){letter, 2});
     }
 
-    return 0;
+    if (*letter == '>' && match_next('=')) {
+        advance();
+        return emit_token(GREATER_EQUAL, (substr_s){letter, 2});
+    }
+
+    if (*letter == '!' && match_next('=')) {
+        advance();
+        return emit_token(BANG_EQUAL, (substr_s){letter, 2});
+    }
+
+    if (*letter == '=' && match_next('=')) {
+        advance();
+        return emit_token(EQUAL_EQUAL, (substr_s){letter, 2});
+    }
+
+    tokentype_e type = *letter * (is_melon_symbol(*letter));
+    advance();
+	return def_token(
+		token, line, type,
+		(substr_s){letter, 1});
 }
+
 /*
 	Scans the source buffer, appending a token for each character.
 	Returns 1 on success, 0 on failure.

@@ -7,7 +7,9 @@
 
 /* Macros Tables
  *
- *    USE( int Type, char *Strings )	
+ *    USE( int Type, char *Strings )
+ *    USE( int Type, char Char )
+ *    USE( char FirstCh, int OneType, char SecondCh, int TwoType )
  */
 #define KEYWORDS_TABLE 				\
 	USE(IF,			"if") 			\
@@ -19,75 +21,67 @@
 	USE(WHILE,		"while") 		\
 	USE(RETURN,		"return") 
 
-#define LITERALS_TABLE 				\
-	USE(STRING,    	"string") 		\
-	USE(NUMBER,		"number") 		\
-	USE(INDENTIFIER,"indentifier") 
-
-#define SINGLE_CHAR_SYMBOLS_TABLE 	\
-    USE(LEFT_PAREN,		'(') 		\
-    USE(RIGHT_PAREN,	')') 		\
-    USE(LEFT_BRACE,		'{') 		\
-    USE(RIGHT_BRACE,   	'}') 		\
-    USE(LEFT_BRACKET,	'[') 		\
-    USE(RIGHT_BRACKET,  ']') 		\
-    USE(COMMA,         	',') 		\
-    USE(DOT,           	'.') 		\
-    USE(MINUS,         	'-') 		\
-    USE(PLUS,          	'+') 		\
-    USE(SEMICOLON,     	';') 		\
-    USE(SLASH,         	'/') 		\
-    USE(STAR,          	'*') 		\
-    USE(HASH,          	'#') 		\
-    USE(AT,            	'@') 		\
-    USE(AMPER,          '&') 		\
-	USE(PIPE,          	'|') 		\
-	USE(COLON,          ':') 		\
-	USE(APOSTROPHE,     '\'') 		\
-    USE(BACKSLASH,      '\\') 		
-
-#define TWO_CHAR_SYMBOLS_TABLE \
-    USE('<', LESS,       '=', LESS_EQUAL) 		\
-    USE('>', GREATER,    '=', GREATER_EQUAL) 	\
-    USE('!', BANG,       '=', BANG_EQUAL) 		\
-    USE('=', EQUAL,      '=', EQUAL_EQUAL)
-
-
 typedef enum tokentype_e {
 
-	/* Expand xmacro to:
-	 *	OUT,
-	 *	ELSE,
-	 *	ETC...
-	 */
+	/* There's no related type */
+	TOKEN_NULL = 0,
 
-	/* Keywords */
+	/* OUT = 1
+	 * FOR = 2
+	 * LIB = 3
+	 * ...
+	 */
   	#define USE(Type, String) Type,
         KEYWORDS_TABLE
   	#undef USE
 
 	/* Literals */
-  	#define USE(Type, String) Type,
-        LITERALS_TABLE
-  	#undef USE
+  	STRING,
+	NUMBER,
+	IDENTIFIER,
 
-	/* Single Char Symbols */
-  	#define USE(Type, String) Type,
-        SINGLE_CHAR_SYMBOLS_TABLE
-  	#undef USE
+	/* Double symbols */
+	LESS_EQUAL,
+    GREATER_EQUAL,
+    BANG_EQUAL,
+    EQUAL_EQUAL,
 
 	/* Symbols */
-  	#define USE(FirstCh, OneType, SecondCh, TwoType) OneType, TwoType,
-        TWO_CHAR_SYMBOLS_TABLE
-  	#undef USE
+    BANG        = 33,  /* ! */
+    QUOTE       = 34,  /* " */
+    HASH        = 35,  /* # */
+    DOLLAR      = 36,  /* $ */
+    PERCENT     = 37,  /* % */
+    AMPERSAND   = 38,  /* & */
+    APOSTROPHE  = 39,  /* ' */
+    LEFT_PAREN  = 40,  /* ( */
+    RIGHT_PAREN = 41,  /* ) */
+    ASTERISK    = 42,  /* * */
+    PLUS        = 43,  /* + */
+    COMMA       = 44,  /* , */
+    MINUS       = 45,  /* - */
+    PERIOD      = 46,  /* . */
+    SLASH       = 47,  /* / */
 
-	/* For language or user defined 
-	 * types like: "Int" or "Str"
-	 */
-	TYPE,
+    COLON       = 58,  /* : */
+    SEMICOLON   = 59,  /* ; */
+    LESS        = 60,  /* < */
+    EQUAL       = 61,  /* = */
+    GREATER     = 62,  /* > */
+    QUESTION    = 63,  /* ? */
+    AT          = 64,  /* @ */
 
-	/* There's no related type */
-	TOKEN_NULL,
+    LEFT_BRACK  = 91,  /* [ */
+    BACKSLASH   = 92,  /* \ */
+    RIGHT_BRACK = 93,  /* ] */
+    CARET       = 94,  /* ^ */
+    UNDERSCORE  = 95,  /* _ */
+    GRAVE       = 96,  /* ` */
+
+    LEFT_BRACE  = 123, /* { */
+    PIPE        = 124, /* | */
+    RIGHT_BRACE = 125, /* } */
+    TILDE       = 126, /* ~ */
 
 	/* To know exactly when the 
 	 * token array ends 

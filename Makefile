@@ -1,5 +1,5 @@
 CC      = cc
-CFLAGS  = -Wall -Wextra -std=c11 -MMD -MP
+CFLAGS  = -Wall -Wextra -std=c11 -MMD -MP -march=native -O3
 OUT     = out
 TARGET  = $(OUT)/melon
 
