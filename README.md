@@ -12,9 +12,9 @@ Table of Contents
 
 ---
 
-### What differs Melong from other interpreted languages?
+### What differs Melon from other interpreted languages?
 
-Melon was designed to be simple, type-safe and lightweight, even though it's not as performant as other languages.
+Melon was designed to be simple, static typed and lightweight, even though it's not as performant I wanted.
 
 Melon offers a C-like syntax and easy-to-use standard library (in development). 
 
