@@ -20,7 +20,7 @@
 #define ERROR_RETURN(code, fmt, ...) \
     do { \
         LOG_ERROR(fmt, ##__VA_ARGS__); \
-        return (code); \
+        exit (code); \
     } while (0)
 
 #endif

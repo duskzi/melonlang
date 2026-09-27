@@ -55,25 +55,21 @@ int main(int argc, char *argv[]) {
 
 	clock_t begin = clock();
 
-	scan_tokens(file, &tokens);
-
-	return 0;
-
-	/* TODO: Actual tokenization is not implemented yet */
 	if (!scan_tokens(file, &tokens)) {
 		token_array_free(&tokens);
 		free(file);
-		return 1;
+		
+		ERROR_RETURN(1, "Failed scanning file tokens");
 	}
 	
 	clock_t end = clock();
 	double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 
 	LOG_DEBUG("Tokens parsed in %lf s", time_spent);
-
+	/*
 	for (size_t i = 0; i < tokens.count; i++) {
 		print_token(&tokens.data[i]);
-	}
+	}*/
 
 	token_array_free(&tokens);
 	free(file);

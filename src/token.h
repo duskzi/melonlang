@@ -9,45 +9,49 @@
  *
  *    USE( int Type, char *Strings )	
  */
-#define KEYWORDS_TABLE \
-	USE(IF,			"if") \
-	USE(FOR,		"for") \
-	USE(OUT,		"out") \
-	USE(LIB,		"lib") \
-	USE(DEF,		"def") \
-	USE(ELSE,		"else") \
-	USE(WHILE,		"while") \
+#define KEYWORDS_TABLE 				\
+	USE(IF,			"if") 			\
+	USE(FOR,		"for") 			\
+	USE(OUT,		"out") 			\
+	USE(LIB,		"lib") 			\
+	USE(DEF,		"def") 			\
+	USE(ELSE,		"else") 		\
+	USE(WHILE,		"while") 		\
 	USE(RETURN,		"return") 
 
-#define LITERALS_TABLE \
-	USE(STRING,    	"string") \
-	USE(NUMBER,		"number") 
+#define LITERALS_TABLE 				\
+	USE(STRING,    	"string") 		\
+	USE(NUMBER,		"number") 		\
+	USE(INDENTIFIER,"indentifier") 
 
-#define SINGLE_CHAR_SYMBOLS_TABLE \
-    USE(LEFT_PAREN,		'(') \
-    USE(RIGHT_PAREN,	')') \
-    USE(LEFT_BRACE,		'{') \
-    USE(RIGHT_BRACE,   	'}') \
-    USE(COMMA,         	',') \
-    USE(DOT,           	'.') \
-    USE(MINUS,         	'-') \
-    USE(PLUS,          	'+') \
-    USE(SEMICOLON,     	';') \
-    USE(SLASH,         	'/') \
-    USE(STAR,          	'*') \
-    USE(AT,            	'@') \
-    USE(BANG,          	'!') \
-    USE(EQUAL,         	'=') \
-    USE(GREATER,       	'>') \
-    USE(LESS,			'<') 
+#define SINGLE_CHAR_SYMBOLS_TABLE 	\
+    USE(LEFT_PAREN,		'(') 		\
+    USE(RIGHT_PAREN,	')') 		\
+    USE(LEFT_BRACE,		'{') 		\
+    USE(RIGHT_BRACE,   	'}') 		\
+    USE(LEFT_BRACKET,	'[') 		\
+    USE(RIGHT_BRACKET,  ']') 		\
+    USE(COMMA,         	',') 		\
+    USE(DOT,           	'.') 		\
+    USE(MINUS,         	'-') 		\
+    USE(PLUS,          	'+') 		\
+    USE(SEMICOLON,     	';') 		\
+    USE(SLASH,         	'/') 		\
+    USE(STAR,          	'*') 		\
+    USE(HASH,          	'#') 		\
+    USE(AT,            	'@') 		\
+    USE(AMPER,          '&') 		\
+	USE(PIPE,          	'|') 		\
+	USE(COLON,          ':') 		\
+	USE(APOSTROPHE,     '\'') 		\
+    USE(BACKSLASH,      '\\') 		
 
-#define SYMBOLS_TABLE \
-    USE(BANG_EQUAL,		"!=") \
-    USE(EQUAL_EQUAL,   	"==") \
-    USE(GREATER_EQUAL, 	">=") \
-    USE(LESS_EQUAL,    	"<=") \
-    USE(AND,           	"&&") \
-    USE(OR,            	"||")
+#define TWO_CHAR_SYMBOLS_TABLE \
+    USE('<', LESS,       '=', LESS_EQUAL) 		\
+    USE('>', GREATER,    '=', GREATER_EQUAL) 	\
+    USE('!', BANG,       '=', BANG_EQUAL) 		\
+    USE('=', EQUAL,      '=', EQUAL_EQUAL)
+
 
 typedef enum tokentype_e {
 
@@ -73,8 +77,8 @@ typedef enum tokentype_e {
   	#undef USE
 
 	/* Symbols */
-  	#define USE(Type, String) Type,
-        SYMBOLS_TABLE
+  	#define USE(FirstCh, OneType, SecondCh, TwoType) OneType, TwoType,
+        TWO_CHAR_SYMBOLS_TABLE
   	#undef USE
 
 	/* For language or user defined 
