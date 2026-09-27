@@ -4,6 +4,14 @@ This is the official repository for the melon language interpreter.
 
 ---
 
+Table of Contents
+
+1. "What differs Melon from other interpreted languages?" (#what-differs-melon-from-other-interpreted-languages)
+2. "How Melon Lang looks like?" (#how-melon-lang-looks-like)
+3. "Why the name "Melon"?" (#why-the-name-melon)
+
+---
+
 ### What differs Melong from other interpreted languages?
 
 Melon was designed to be simple, type-safe and lightweight, even though it's not as performant as other languages.
