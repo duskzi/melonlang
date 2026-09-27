@@ -1,1 +1,5 @@
-this is a phrase
+@lib <io>
+
+Int main(void) {
+    out("Hello from Melon!");
+}
